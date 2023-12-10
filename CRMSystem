@@ -1,9 +1,12 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CRMSystem {
     private static final int ADD_CUSTOMER = 1;
     private static final int DISPLAY_CUSTOMER_INFO = 2;
     private static final int EXIT = 3;
+
+    private ArrayList<Customer> customers = new ArrayList<>();
 
     public static void main(String[] args) {
         CRMSystem crmSystem = new CRMSystem();
@@ -58,12 +61,39 @@ public class CRMSystem {
     }
 
     private void addCustomer(String name, String email) {
-        // Implement your logic to add a customer
+        Customer newCustomer = new Customer(name, email);
+        customers.add(newCustomer);
         System.out.println("Customer added successfully.");
     }
 
     private void displayCustomerInformation(String email) {
-        // Implement your logic to display customer information
-        System.out.println("Displaying customer information for email: " + email);
+        for (Customer customer : customers) {
+            if (customer.getEmail().equals(email)) {
+                System.out.println("Customer Information:");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Email: " + customer.getEmail());
+                return;
+            }
+        }
+        System.out.println("Customer not found with email: " + email);
     }
 }
+
+class Customer {
+    private String name;
+    private String email;
+
+    public Customer(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+}
+
