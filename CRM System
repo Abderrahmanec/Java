@@ -1,0 +1,98 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class CRMSystem {
+    private static final int ADD_CUSTOMER = 1;
+    private static final int DISPLAY_CUSTOMER_INFO = 2;
+    private static final int EXIT = 3;
+
+    private ArrayList<Customer> customers = new ArrayList<>();
+
+    public static void main(String[] args) {
+        CRMSystem crmSystem = new CRMSystem();
+        Scanner scanner = new Scanner(System.in);
+
+        int choice;
+
+        do {
+            printMenu();
+            System.out.print("Select an option: ");
+
+            while (!scanner.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next(); // consume non-integer input
+            }
+
+            choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            switch (choice) {
+                case ADD_CUSTOMER:
+                    // Option 1: Add Customer
+                    System.out.print("Enter customer name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter customer email: ");
+                    String email = scanner.nextLine();
+                    crmSystem.addCustomer(name, email);
+                    break;
+                case DISPLAY_CUSTOMER_INFO:
+                    // Option 2: Display Customer Information
+                    System.out.print("Enter customer email: ");
+                    email = scanner.nextLine();
+                    crmSystem.displayCustomerInformation(email);
+                    break;
+                case EXIT:
+                    // Option 3: Exit
+                    System.out.println("Exiting CRM System. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please choose again.");
+            }
+        } while (choice != EXIT);
+
+        scanner.close();
+    }
+
+    private static void printMenu() {
+        System.out.println("\nCRM System Menu:");
+        System.out.println(ADD_CUSTOMER + ". Add Customer");
+        System.out.println(DISPLAY_CUSTOMER_INFO + ". Display Customer Information");
+        System.out.println(EXIT + ". Exit");
+    }
+
+    private void addCustomer(String name, String email) {
+        Customer newCustomer = new Customer(name, email);
+        customers.add(newCustomer);
+        System.out.println("Customer added successfully.");
+    }
+
+    private void displayCustomerInformation(String email) {
+        for (Customer customer : customers) {
+            if (customer.getEmail().equals(email)) {
+                System.out.println("Customer Information:");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Email: " + customer.getEmail());
+                return;
+            }
+        }
+        System.out.println("Customer not found with email: " + email);
+    }
+}
+
+class Customer {
+    private String name;
+    private String email;
+
+    public Customer(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+}
